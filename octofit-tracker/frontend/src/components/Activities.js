@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
-  const codespace = window.REACT_APP_CODESPACE_NAME;
-  const endpoint = codespace
+  const codespace = window.REACT_APP_CODESPACE_NAME || window.location.hostname.split('-3000')[0];
+  const endpoint = codespace && codespace !== 'localhost'
     ? `https://${codespace}-8000.app.github.dev/api/activities/`
     : 'http://localhost:8000/api/activities/';
 
