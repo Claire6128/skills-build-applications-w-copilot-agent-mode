@@ -4,10 +4,8 @@ const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const codespace = window.REACT_APP_CODESPACE_NAME;
-  const endpoint = codespace
-    ? `https://${codespace}-8000.app.github.dev/api/workouts/`
-    : 'http://localhost:8000/api/workouts/';
+  const codespace = window.location.hostname.split('-3000')[0];
+  const endpoint = `https://${codespace}-8000.app.github.dev/api/workouts/`;
 
   const fetchWorkouts = () => {
     setLoading(true);
@@ -18,7 +16,7 @@ const Workouts = () => {
         return res.json();
       })
       .then(data => {
-        setWorkouts(data.results || data);
+        setWorkouts(Array.isArray(data) ? data : (data.results || []));
         setLoading(false);
       })
       .catch(err => {
@@ -48,9 +46,9 @@ const Workouts = () => {
           <tbody>
             {workouts.map((workout, idx) => (
               <tr key={idx}>
-                <td>{workout.user}</td>
-                <td>{workout.workout}</td>
-                <td>{workout.reps}</td>
+                <td>{workout.user || ''}</td>
+                <td>{workout.workout || ''}</td>
+                <td>{workout.reps || ''}</td>
               </tr>
             ))}
           </tbody>

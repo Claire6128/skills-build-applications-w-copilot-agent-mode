@@ -4,10 +4,8 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const codespace = window.REACT_APP_CODESPACE_NAME;
-  const endpoint = codespace
-    ? `https://${codespace}-8000.app.github.dev/api/users/`
-    : 'http://localhost:8000/api/users/';
+  const codespace = window.location.hostname.split('-3000')[0];
+  const endpoint = `https://${codespace}-8000.app.github.dev/api/users/`;
 
   const fetchUsers = () => {
     setLoading(true);
@@ -18,7 +16,7 @@ const Users = () => {
         return res.json();
       })
       .then(data => {
-        setUsers(data.results || data);
+        setUsers(Array.isArray(data) ? data : (data.results || []));
         setLoading(false);
       })
       .catch(err => {
@@ -48,9 +46,9 @@ const Users = () => {
           <tbody>
             {users.map((user, idx) => (
               <tr key={idx}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.team}</td>
+                <td>{user.name || ''}</td>
+                <td>{user.email || ''}</td>
+                <td>{user.team || ''}</td>
               </tr>
             ))}
           </tbody>

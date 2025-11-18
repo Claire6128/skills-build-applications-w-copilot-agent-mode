@@ -4,10 +4,8 @@ const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const codespace = window.REACT_APP_CODESPACE_NAME;
-  const endpoint = codespace
-    ? `https://${codespace}-8000.app.github.dev/api/teams/`
-    : 'http://localhost:8000/api/teams/';
+  const codespace = window.location.hostname.split('-3000')[0];
+  const endpoint = `https://${codespace}-8000.app.github.dev/api/teams/`;
 
   const fetchTeams = () => {
     setLoading(true);
@@ -18,7 +16,7 @@ const Teams = () => {
         return res.json();
       })
       .then(data => {
-        setTeams(data.results || data);
+        setTeams(Array.isArray(data) ? data : (data.results || []));
         setLoading(false);
       })
       .catch(err => {
@@ -45,12 +43,22 @@ const Teams = () => {
             </tr>
           </thead>
           <tbody>
-            {teams.map((team, idx) => (
-              <tr key={idx}>
-                <td>{team.name}</td>
-                <td>{team.members && team.members.join(', ')}</td>
-              </tr>
-            ))}
+            {teams.map((team, idx) => {
+              let members = team.members;
+              if (typeof members === 'string') {
+                try {
+                  members = JSON.parse(members.replace(/'/g, '"'));
+                } catch (e) {
+                  members = [team.members];
+                }
+              }
+              return (
+                <tr key={idx}>
+                  <td>{team.name}</td>
+                  <td>{Array.isArray(members) ? members.join(', ') : members}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}
