@@ -19,14 +19,26 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
-      <ul className="list-group">
-        {users.map((user, idx) => (
-          <li key={idx} className="list-group-item">
-            {user.name} ({user.email}) - {user.team}
-          </li>
-        ))}
-      </ul>
+      <h2 className="mb-4">Users</h2>
+      <table className="table table-striped table-bordered">
+        <thead className="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, idx) => (
+            <tr key={idx}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.team}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="btn btn-primary mt-3" onClick={() => window.location.reload()}>Rafraîchir</button>
     </div>
   );
 };

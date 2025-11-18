@@ -19,14 +19,24 @@ const Teams = () => {
 
   return (
     <div>
-      <h2>Teams</h2>
-      <ul className="list-group">
-        {teams.map((team, idx) => (
-          <li key={idx} className="list-group-item">
-            {team.name}: {team.members && team.members.join(', ')}
-          </li>
-        ))}
-      </ul>
+      <h2 className="mb-4">Teams</h2>
+      <table className="table table-striped table-bordered">
+        <thead className="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Members</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teams.map((team, idx) => (
+            <tr key={idx}>
+              <td>{team.name}</td>
+              <td>{team.members && team.members.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="btn btn-primary mt-3" onClick={() => window.location.reload()}>Rafraîchir</button>
     </div>
   );
 };

@@ -19,14 +19,26 @@ const Activities = () => {
 
   return (
     <div>
-      <h2>Activities</h2>
-      <ul className="list-group">
-        {activities.map((activity, idx) => (
-          <li key={idx} className="list-group-item">
-            {activity.user} - {activity.type} ({activity.distance} km)
-          </li>
-        ))}
-      </ul>
+      <h2 className="mb-4">Activities</h2>
+      <table className="table table-striped table-bordered">
+        <thead className="table-dark">
+          <tr>
+            <th>User</th>
+            <th>Type</th>
+            <th>Distance (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activities.map((activity, idx) => (
+            <tr key={idx}>
+              <td>{activity.user}</td>
+              <td>{activity.type}</td>
+              <td>{activity.distance}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="btn btn-primary mt-3" onClick={() => window.location.reload()}>Rafraîchir</button>
     </div>
   );
 };
